@@ -1,18 +1,20 @@
 # YY Preprocessing
 
-![PyPI version](https://img.shields.io/pypi/v/yyprep.svg)
-[![Documentation Status](https://readthedocs.org/projects/yyprep/badge/?version=latest)](https://yyprep.readthedocs.io/en/latest/?version=latest)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+
 
 A simple Python pipeline to convert DICOM directories to BIDS format and preprocess them using fMRIPrep. Provides an easy-to-use CLI built with Typer.
 
 Package written specifically for the in-house use in Prof. Yaara Yeshurun's Lab.
 
-* **PyPI package**: https://pypi.org/project/yyprep/
-* **Free software**: MIT License
-* **Documentation**: https://yyprep.readthedocs.io
-* **Source code**: https://github.com/GalKepler/yyprep
+## Overview
+
+|  |  | 
+|--------|-------------|
+| Docs | [![Documentation Status](https://readthedocs.org/projects/yy-prep/badge/?version=latest)](https://yy-prep.readthedocs.io/en/latest/?version=latest)
+| Tests, CI | [![CI](https://github.com/GalKepler/YY_prep/actions/workflows/test.yml/badge.svg)](https://github.com/GalKepler/YY_prep/actions)
+| Version | [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)  ![PyPI version](https://img.shields.io/pypi/v/yyprep.svg)
+| License | [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 
 ## Features
 
