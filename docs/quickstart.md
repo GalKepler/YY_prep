@@ -30,13 +30,12 @@ pip install -e ".[test]"
 ## Step 1: Prepare Your Data
 
 Create a CSV file with your participant information:
+| subject_code | session_id | dicom_path |
+|--------|-------------|---------|
+| 001 | 001 | /path/to/dicom_directory/sub-001/ses-001 |
+| 001 | 002 | /path/to/dicom_directory/sub-001/ses-002 |
+| 002 | 001 | /path/to/dicom_directory/sub-002/ses-001 |
 
-```csv
-subject_id,session_id,dicom_directory
-001,baseline,/path/to/dicoms/sub-001/ses-baseline
-001,followup,/path/to/dicoms/sub-001/ses-followup
-002,baseline,/path/to/dicoms/sub-002/ses-baseline
-```
 
 ## Step 2: Convert DICOM to BIDS
 
