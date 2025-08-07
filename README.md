@@ -22,8 +22,9 @@ This tool helps you:
 - 🗂️ **Update fieldmaps**: Automatically update `IntendedFor` fields in BIDS fieldmap JSON files for fMRIPrep compatibility
 - 📊 **CSV integration**: Integrate with your own data structure using a user-generated CSV file
 - ⚡ **Modern CLI**: Run the workflow with a single, modern, tab-completing command-line interface built with Typer
-- 🔬 **fMRIPrep ready**: Provides an easy wrapper to ensure your data is properly formatted for fMRIPrep preprocessing
+- 🔬 **fMRIPrep integration**: Run fMRIPrep preprocessing with a nipype-like interface using Docker
 - 🏗️ **Heuristic support**: Use predefined or custom heuristics for flexible DICOM conversion
+- 🐳 **Docker ready**: Built-in Docker support for fMRIPrep execution
 
 ## Quick Start
 
@@ -59,13 +60,25 @@ yyprep dicom2bids participants.csv \
   --heuristic /path/to/your/heuristic.py
 ```
 
-That's it! Your DICOM data will be converted to BIDS format and prepared for fMRIPrep.
+3. **Run fMRIPrep preprocessing**:
+
+```bash
+yyprep fmriprep /path/to/output/bids /path/to/fmriprep_output \
+  --participant-label 001 002 \
+  --output-spaces MNI152NLin2009cAsym:res-2
+```
+
+That's it! Your DICOM data will be converted to BIDS format and preprocessed with fMRIPrep.
 
 ## Detailed Usage
 
 ### Command Line Interface
 
-The main command is `yyprep dicom2bids` with the following options:
+The package provides two main commands:
+
+#### DICOM to BIDS Conversion
+
+The `yyprep dicom2bids` command converts DICOM files to BIDS format:
 
 ```bash
 yyprep dicom2bids [OPTIONS] PARTICIPANTS_CSV
@@ -81,6 +94,34 @@ yyprep dicom2bids [OPTIONS] PARTICIPANTS_CSV
 - `--overwrite`: Pass --overwrite to heudiconv (default: False)
 - `--skip-intendedfor`: Skip updating IntendedFor fields (default: False)
 - `--dry-run`: Print commands but do not run conversion (default: False)
+
+#### fMRIPrep Preprocessing
+
+The `yyprep fmriprep` command runs fMRIPrep preprocessing:
+
+```bash
+yyprep fmriprep [OPTIONS] BIDS_DIR OUTPUT_DIR
+```
+
+**Required Arguments:**
+- `BIDS_DIR`: Path to BIDS dataset directory
+- `OUTPUT_DIR`: Path to output directory for fMRIPrep derivatives
+
+**Options:**
+- `--participant-label`: List of participant labels to process
+- `--session-id`: List of session IDs to process
+- `--task-id`: List of task IDs to process
+- `--output-spaces`: Output spaces for resampling (default: MNI152NLin2009cAsym:res-2)
+- `--fs-license-file`: Path to FreeSurfer license file
+- `--work-dir`: Working directory for temporary files
+- `--n-cpus`: Number of CPUs to use
+- `--omp-nthreads`: Maximum number of threads per process
+- `--mem-gb`: Memory limit in GB
+- `--bids-filter-file`: Path to BIDS filter file for selecting specific data
+- `--skip-bids-validation`: Skip BIDS validation
+- `--low-mem`: Attempt to reduce memory usage
+- `--docker-image`: Docker image to use (default: nipreps/fmriprep:latest)
+- `--dry-run`: Print command but do not run fMRIPrep
 
 ### CSV Format
 
@@ -137,7 +178,21 @@ convert_dicom_to_bids(
 )
 
 # Update IntendedFor fields
-update_intended_for(df=df, bids_path= '/path/to/output/bids')
+update_intended_for('/path/to/output/bids', df)
+
+# Run fMRIPrep preprocessing
+from yyprep.fmriprep.interface import create_fmriprep_workflow
+
+workflow = create_fmriprep_workflow(
+    bids_dir='/path/to/output/bids',
+    output_dir='/path/to/fmriprep_output',
+    participant_label=['001', '002'],
+    output_spaces=['MNI152NLin2009cAsym:res-2'],
+    work_dir='/path/to/work',
+    omp_nthreads=8,  # Number of OpenMP threads
+    bids_filter_file='/path/to/filter.json'  # Custom BIDS filter
+)
+result = workflow.run()
 ```
 
 ## Examples
@@ -145,13 +200,15 @@ update_intended_for(df=df, bids_path= '/path/to/output/bids')
 Check out the `examples/` directory for complete examples:
 
 - `tzlil_preprocessing.ipynb`: Complete notebook showing the preprocessing workflow
+- `fmriprep_usage.py`: Examples of using the fMRIPrep interface programmatically
 
 ## Requirements
 
 - Python 3.10+
 - HeuDiConv
 - dcm2niix
-- Dependencies: typer, pandas
+- fmriprep-docker (for fMRIPrep)
+- Dependencies: typer, pandas, nipype, fmriprep-docker
 
 ## Development
 
