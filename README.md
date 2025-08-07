@@ -13,6 +13,7 @@ Package written specifically for the in-house use in Prof. Yaara Yeshurun's Lab.
 | Docs | [![Documentation Status](https://readthedocs.org/projects/yy-prep/badge/?version=latest)](https://yy-prep.readthedocs.io/en/latest/?version=latest)
 | Tests, CI | [![CI](https://github.com/GalKepler/YY_prep/actions/workflows/test.yml/badge.svg)](https://github.com/GalKepler/YY_prep/actions)
 | Version | [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)  ![PyPI version](https://img.shields.io/pypi/v/yyprep.svg)
+| Styling | [![black](https://img.shields.io/badge/formatter-black-000000.svg)](https://github.com/psf/black) [![isort](https://img.shields.io/badge/imports-isort-%231674b1.svg)](https://pycqa.github.io/isort/) [![flake8](https://img.shields.io/badge/style-flake8-000000.svg)](https://flake8.pycqa.org/en/latest/)
 | License | [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
