@@ -1,0 +1,138 @@
+# MkDocs configuration for yyprep documentation
+site_name: YY Preprocessing (yyprep)
+site_description: Comprehensive DICOM to BIDS conversion and fMRIPrep preprocessing tool
+site_author: Gal Kepler
+site_url: https://yyprep.readthedocs.io/
+
+# Repository information
+repo_name: GalKepler/yyprep
+repo_url: https://github.com/GalKepler/yyprep
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2025 Gal Kepler, Prof. Yaara Yeshurun's Lab
+
+# Configuration
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+    - content.action.edit
+    - content.action.view
+  icon:
+    repo: fontawesome/brands/github
+
+# Plugins
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+  - git-revision-date-localized:
+      enable_creation_date: true
+
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/GalKepler/yyprep
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/yyprep/
+  version:
+    provider: mike
+
+# Extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:materialx.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: GalKepler
+      repo: yyprep
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Page tree
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: installation.md
+    - Quick Start: quickstart.md
+    - Configuration: configuration.md
+  - User Guide:
+    - Usage: usage.md
+    - DICOM to BIDS: dicom2bids.md
+    - fMRIPrep Integration: fmriprep.md
+    - Custom Heuristics: heuristics.md
+  - Reference:
+    - CLI Reference: cli.md
+    - Python API: api.md
+    - Workflows: workflows.md
+  - Advanced:
+    - Troubleshooting: troubleshooting.md
+    - Contributing: contributing.md
+    - Release History: history.md
+
+# Google Analytics (optional - add your tracking ID if you have one)
+# google_analytics:
+#   - G-XXXXXXXXXX
+#   - auto

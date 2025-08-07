@@ -1,0 +1,18 @@
+# Documentation build requirements for Read the Docs
+mkdocs>=1.5.0
+mkdocs-material>=9.0.0
+mkdocs-git-revision-date-localized-plugin>=1.2.0
+mkdocs-minify-plugin>=0.7.0
+pymdown-extensions>=10.0.0
+
+# Optional: For better search functionality
+mkdocs-awesome-pages-plugin>=2.9.0
+
+# Optional: For API documentation generation
+mkdocstrings[python]>=0.22.0
+mkdocstrings-python>=1.0.0
+
+# Python dependencies needed for documentation examples
+pandas>=1.5.0
+typer>=0.9.0
+nipype>=1.8.0
