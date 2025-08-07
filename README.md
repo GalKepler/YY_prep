@@ -1,36 +1,214 @@
 # YY Preprocessing
 
-
-
 ![PyPI version](https://img.shields.io/pypi/v/yyprep.svg)
 [![Documentation Status](https://readthedocs.org/projects/yyprep/badge/?version=latest)](https://yyprep.readthedocs.io/en/latest/?version=latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 
 A simple Python pipeline to convert DICOM directories to BIDS format and preprocess them using fMRIPrep. Provides an easy-to-use CLI built with Typer.
 
 Package written specifically for the in-house use in Prof. Yaara Yeshurun's Lab.
 
-* PyPI package: https://pypi.org/project/yyprep/
-* Free software: MIT License
-* Documentation: https://yyprep.readthedocs.io.
+* **PyPI package**: https://pypi.org/project/yyprep/
+* **Free software**: MIT License
+* **Documentation**: https://yyprep.readthedocs.io
+* **Source code**: https://github.com/GalKepler/yyprep
 
-
-## Overview
+## Features
 
 This tool helps you:
 
-- Convert DICOM sessions to the BIDS standard using HeuDiConv.
-- Update `IntendedFor` fields in BIDS fieldmap JSON files for fMRIPrep.
-- Integrate with your own data structure using a user-generated CSV.
-- Run the workflow with a single, modern, tab-completing command-line interface.
-- Provides an easy wrapper for fMRIPrep to allow reproducible and accessible preprocessing of MRI-derived data.
+- 🔄 **Convert DICOM to BIDS**: Seamlessly convert DICOM sessions to the BIDS standard using HeuDiConv
+- 🗂️ **Update fieldmaps**: Automatically update `IntendedFor` fields in BIDS fieldmap JSON files for fMRIPrep compatibility
+- 📊 **CSV integration**: Integrate with your own data structure using a user-generated CSV file
+- ⚡ **Modern CLI**: Run the workflow with a single, modern, tab-completing command-line interface built with Typer
+- 🔬 **fMRIPrep ready**: Provides an easy wrapper to ensure your data is properly formatted for fMRIPrep preprocessing
+- 🏗️ **Heuristic support**: Use predefined or custom heuristics for flexible DICOM conversion
 
-## Installation
+## Quick Start
+
+### Installation
 
 **Recommended**: Install in a virtual environment.
 
-<code>
-git clone https://github.com/GalKepler/YY_prep.git
+```bash
+# Install from PyPI
+pip install yyprep
+
+# Or install from source for development
+git clone https://github.com/GalKepler/yyprep.git
 cd yyprep
 pip install -e .
-</code>
+```
+
+### Basic Usage
+
+1. **Prepare your data**: Create a CSV file with your participant information:
+
+| subject_code | session_id | dicom_path |
+|--------|-------------|---------|
+| 001 | 001 | /path/to/dicom_directory |
+| 002 | 001 | /path/to/dicom_directory |
+
+
+2. **Run the conversion**:
+
+```bash
+yyprep dicom2bids participants.csv \
+  --bids-dir /path/to/output/bids \
+  --heuristic /path/to/your/heuristic.py
+```
+
+That's it! Your DICOM data will be converted to BIDS format and prepared for fMRIPrep.
+
+## Detailed Usage
+
+### Command Line Interface
+
+The main command is `yyprep dicom2bids` with the following options:
+
+```bash
+yyprep dicom2bids [OPTIONS] PARTICIPANTS_CSV
+```
+
+**Required Arguments:**
+- `PARTICIPANTS_CSV`: Path to CSV file containing subject/session/DICOM information
+
+**Options:**
+- `--bids-dir`: Root output directory for BIDS dataset (required)
+- `--heuristic`: Path to heuristic Python file for heudiconv (required)
+- `--heudiconv-template`: Custom template for heudiconv command (optional)
+- `--overwrite`: Pass --overwrite to heudiconv (default: False)
+- `--skip-intendedfor`: Skip updating IntendedFor fields (default: False)
+- `--dry-run`: Print commands but do not run conversion (default: False)
+
+### CSV Format
+
+Your participants CSV should include the following columns:
+
+| Column | Description | Example |
+|--------|-------------|---------|
+| `subject_code` | Subject identifier | `001` |
+| `session_id` | Session identifier | `01`, `baseline` |
+| `dicom_path` | Path to DICOM directory | `/data/dicoms/sub001_ses01` |
+
+### Heuristics
+
+The package includes built-in heuristics for common scanning protocols. You can also provide your own heuristic file:
+
+```python
+from yyprep.utils import get_heuristics
+
+# Get available built-in heuristics
+heuristics = get_heuristics()
+print(heuristics)  # {'tzlil': '/path/to/tzlil_heuristic.py'}
+
+# Use a built-in heuristic
+heuristic_path = heuristics['tzlil']
+```
+
+### Python API
+
+You can also use yyprep programmatically:
+
+```python
+import pandas as pd
+from yyprep.dicom2bids.convert import convert_dicom_to_bids
+from yyprep.dicom2bids.intended_for import update_intended_for
+
+# Load your data
+df = pd.read_csv('participants.csv')
+
+# Convert DICOM to BIDS (using default heudiconv template)
+convert_dicom_to_bids(
+    df=df,
+    heuristic='/path/to/heuristic.py',
+    bids_path='/path/to/output/bids',
+    overwrite=False
+)
+
+# Or with a custom heudiconv template
+convert_dicom_to_bids(
+    df=df,
+    heuristic='/path/to/heuristic.py',
+    bids_path='/path/to/output/bids',
+    heudiconv_cmd_template="heudiconv -d '{dicom_directory}' -s {subject_id} ...",
+    overwrite=False
+)
+
+# Update IntendedFor fields
+update_intended_for(df=df, bids_path= '/path/to/output/bids')
+```
+
+## Examples
+
+Check out the `examples/` directory for complete examples:
+
+- `tzlil_preprocessing.ipynb`: Complete notebook showing the preprocessing workflow
+
+## Requirements
+
+- Python 3.10+
+- HeuDiConv
+- dcm2niix
+- Dependencies: typer, pandas
+
+## Development
+
+### Setting up for development
+
+```bash
+git clone https://github.com/GalKepler/yyprep.git
+cd yyprep
+pip install -e ".[test]"
+```
+
+### Running tests
+
+```bash
+pytest
+```
+
+### Code formatting and linting
+
+```bash
+ruff check .
+ruff format .
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate and follow the existing code style.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Citation
+
+If you use this package in your research, please cite:
+
+```bibtex
+@software{yyprep,
+  author = {Kepler, Gal},
+  title = {YY Preprocessing: DICOM to BIDS conversion and fMRIPrep preparation},
+  url = {https://github.com/GalKepler/yyprep},
+  version = {0.1.0},
+  year = {2025}
+}
+```
+
+## Support
+
+- 📖 **Documentation**: https://yyprep.readthedocs.io
+- 🐛 **Bug reports**: https://github.com/GalKepler/yyprep/issues
+- 💬 **Questions**: Open an issue on GitHub
+
+## Acknowledgments
+
+- Built for Prof. Yaara Yeshurun's Lab
+- Uses HeuDiConv for DICOM to BIDS conversion
+- Integrates with the fMRIPrep preprocessing pipeline
 

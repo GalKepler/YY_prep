@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 
 
-def update_intended_for(bids_path: Path | str, df: pd.DataFrame):
+def update_intended_for(df: pd.DataFrame, bids_path: Path | str):
     """
     Update the 'IntendedFor' field in BIDS fmap JSON files based on the provided DataFrame.
 
@@ -23,7 +23,9 @@ def update_intended_for(bids_path: Path | str, df: pd.DataFrame):
         subject = row["subject_code"]
         session = row.get("session_id", None)
 
-        fmaps = layout.get(subject=subject, session=session, datatype="fmap", extension="json")
+        fmaps = layout.get(
+            subject=subject, session=session, datatype="fmap", extension="json"
+        )
         funcs_to_include = layout.get(
             subject=subject, session=session, datatype="func", extension="nii.gz"
         )

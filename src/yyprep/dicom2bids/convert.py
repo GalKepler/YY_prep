@@ -2,13 +2,14 @@ import subprocess
 from typing import Union
 import pandas as pd
 from pathlib import Path
+from yyprep.static.templates import HEUDICONV_CMD_TEMPLATE
 
 
 def convert_dicom_to_bids(
     df: pd.DataFrame,
-    heudiconv_cmd_template: Path | str,
     heuristic: Path | str,
     bids_path: Path | str,
+    heudiconv_cmd_template: Path | str = HEUDICONV_CMD_TEMPLATE,
     overwrite: bool = False,
 ):  # noqa: E501, UP007
     """
@@ -29,7 +30,9 @@ def convert_dicom_to_bids(
     """
     heudiconv_cmd_template = Path(heudiconv_cmd_template)
     if not heudiconv_cmd_template.exists():
-        raise FileNotFoundError(f"Heudiconv command template not found: {heudiconv_cmd_template}")
+        raise FileNotFoundError(
+            f"Heudiconv command template not found: {heudiconv_cmd_template}"
+        )
     if not Path(heuristic).exists():
         raise FileNotFoundError(f"Heuristic file not found: {heuristic}")
     for _, row in df.iterrows():

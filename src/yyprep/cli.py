@@ -9,7 +9,7 @@ app = typer.Typer(
 
 
 @app.command()
-def run(
+def dicom2bids(
     participants_csv: str = typer.Argument(
         ..., help="CSV file with subject/session/DICOM info"
     ),
