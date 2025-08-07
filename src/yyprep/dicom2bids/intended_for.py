@@ -1,9 +1,8 @@
-from typing import Union
-import pandas as pd
-from pathlib import Path
-from bids.layout import BIDSLayout
 import json
 from pathlib import Path
+
+import pandas as pd
+from bids.layout import BIDSLayout
 
 
 def update_intended_for(df: pd.DataFrame, bids_path: Path | str):
@@ -36,7 +35,7 @@ def update_intended_for(df: pd.DataFrame, bids_path: Path | str):
 
         for fmap in fmaps:
             fmap_json = fmap.path
-            with open(fmap_json, "r") as f:
+            with open(fmap_json) as f:
                 data = json.load(f)
             fmap_intended_for = data.get("IntendedFor", [])
             fmap_intended_for = list(set(fmap_intended_for + funcs_addition))

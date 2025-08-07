@@ -5,9 +5,9 @@ This module demonstrates how to use the nipype-like interface for fMRIPrep
 both programmatically and through the CLI.
 """
 
-from pathlib import Path
 import pandas as pd
-from yyprep.fmriprep.interface import create_fmriprep_workflow, FMRIPrepInterface
+
+from yyprep.fmriprep.interface import FMRIPrepInterface, create_fmriprep_workflow
 
 
 def example_programmatic_usage():

@@ -5,13 +5,11 @@ This file is used to map DICOM series related to Tzlil's thesis project to BIDS-
 
 from __future__ import annotations
 
-from typing import Optional
-
 from heudiconv.utils import SeqInfo
 
 
 def create_key(
-    template: Optional[str],
+    template: str | None,
     outtype: tuple[str, ...] = ("nii.gz", "json"),
     annotation_classes: None = None,
 ) -> tuple[str, tuple[str, ...], None]:

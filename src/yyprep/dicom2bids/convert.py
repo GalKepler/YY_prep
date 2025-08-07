@@ -1,7 +1,8 @@
 import subprocess
-from typing import Union
-import pandas as pd
 from pathlib import Path
+
+import pandas as pd
+
 from yyprep.static.templates import HEUDICONV_CMD_TEMPLATE
 
 
