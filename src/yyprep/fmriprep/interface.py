@@ -15,6 +15,7 @@ from nipype.interfaces.base import (
     TraitedSpec,
     isdefined,
     traits,
+    Directory,
 )
 
 
@@ -22,7 +23,7 @@ class FMRIPrepInputSpec(BaseInterfaceInputSpec):
     """Input specification for FMRIPrep interface."""
 
     # Required inputs
-    bids_dir = File(
+    bids_dir = Directory(
         exists=True,
         mandatory=True,
         desc="Root directory of BIDS dataset",
@@ -142,13 +143,14 @@ class FMRIPrepInterface(BaseInterface):
     def __init__(self, **kwargs):
         """Initialize the interface."""
         super().__init__(**kwargs)
+        print("Checking fmriprep-docker availability...")
         self._check_fmriprep_docker()
 
     def _check_fmriprep_docker(self):
         """Check if fmriprep-docker is available."""
         try:
             subprocess.run(
-                ["fmriprep-docker", "--version"],
+                ["fmriprep-docker", "--no-tty", "--version"],
                 check=True,
                 capture_output=True,
                 text=True,
